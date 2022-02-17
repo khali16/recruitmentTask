@@ -23,7 +23,7 @@ const SingleCanvas: React.FC<Props> = ({
         <div
           style={{
             border: "1px solid red",
-            position: "absolute",
+            position: "fixed",
             top: `${bounds.top}px`,
             left: `${bounds.left}px`,
             height: `${bounds.height}px`,
@@ -38,8 +38,8 @@ const SingleCanvas: React.FC<Props> = ({
           backgroundColor: color.length === 7 ? color : "black",
           transform: `rotate(${rotation}deg)`,
           position: "absolute",
-          top: `${y - width / 2}px`,
-          left: `${x - height / 2}px`,
+          top: `${y - height / 2}px`,
+          left: `${x - width / 2}px`,
         }}
         ref={targetRef}
       >
@@ -48,14 +48,21 @@ const SingleCanvas: React.FC<Props> = ({
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, -50%)",
+            transform: `rotate(${-rotation}deg)`,
             backgroundColor: "white",
             width: "10px",
             height: "10px",
             borderRadius: "50%",
           }}
         >
-          <span>{rotation}</span>
+          <span
+            style={{
+              mixBlendMode: "difference",
+              color: color.length === 7 ? "black" : "white",
+            }}
+          >
+            {rotation}
+          </span>
         </div>
       </div>
     </>

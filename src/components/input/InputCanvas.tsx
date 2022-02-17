@@ -19,14 +19,16 @@ const InputCanvas: React.FC<Props> = ({ setInputPostfix }) => {
   };
   return (
     <>
-      <input
-        type="text"
-        value={inputCanvasId}
-        onChange={changeProjectIdHandler}
-      />
-      <button type="submit" onClick={submitHandler}>
-        FETCH
-      </button>
+      <div style={{ width: "100vw", height: "3vh", backgroundColor: "yellow" }}>
+        <input
+          type="text"
+          value={inputCanvasId}
+          onChange={changeProjectIdHandler}
+        />
+        <button type="submit" onClick={submitHandler}>
+          FETCH
+        </button>
+      </div>
     </>
   );
 };

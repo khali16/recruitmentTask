@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGetDataByIdProjectQuery } from "../../store/dataApi";
 import SingleCanvas from "./SingleCanvas";
 
@@ -31,18 +31,40 @@ interface ApiData {
 
 const Canvas: React.FC<Props> = ({ endpoint }) => {
   useEffect(() => {}, [endpoint]);
+  const [errorData, setErrorData] = useState(false);
+
   //TODO handle error
   const { data, error, isLoading } = useGetDataByIdProjectQuery(endpoint);
-  console.log(data);
+  console.log(error);
 
   const fetchedData: ApiData = data;
 
+  // useEffect(() => {
+  //   fetchedData.project.items.map((item) => {
+  //     if (
+  //       isNaN(item.height || item.rotation || item.width || item.x || item.y)
+  //     ) {
+  //       setErrorData(true);
+  //     }
+  //   });
+  // }, [fetchedData]);
+
   return (
-    <>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        maxHeight: "100%",
+        backgroundColor: "blueviolet",
+        display: "flex",
+        flexFlow: "column",
+      }}
+    >
       {isLoading ? (
         <div>Loading...</div>
       ) : error ? (
-        <div>Something went wrong...</div>
+        //@ts-ignore
+        error.status === 500 || (404 && <p>błąd serwera</p>)
       ) : (
         <div
           style={{
@@ -58,7 +80,7 @@ const Canvas: React.FC<Props> = ({ endpoint }) => {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
