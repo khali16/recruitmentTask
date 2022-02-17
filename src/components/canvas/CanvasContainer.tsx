@@ -7,12 +7,11 @@ interface Props {
 
 const CanvasContainer: React.FC<Props> = ({ endpoint }) => {
   return (
-    <main
+    <div
       style={{
         width: "100vw",
         height: "97vh",
-        display: "flex",
-        flexDirection: "column",
+        flex: "1 1",
       }}
     >
       {endpoint === "" ? (
@@ -20,7 +19,7 @@ const CanvasContainer: React.FC<Props> = ({ endpoint }) => {
       ) : (
         <Canvas endpoint={endpoint} />
       )}
-    </main>
+    </div>
   );
 };
 

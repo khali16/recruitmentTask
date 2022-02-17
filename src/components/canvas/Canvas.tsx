@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useGetDataByIdProjectQuery } from "../../store/dataApi";
 import SingleCanvas from "./SingleCanvas";
 
@@ -31,23 +31,12 @@ interface ApiData {
 
 const Canvas: React.FC<Props> = ({ endpoint }) => {
   useEffect(() => {}, [endpoint]);
-  const [errorData, setErrorData] = useState(false);
 
   //TODO handle error
   const { data, error, isLoading } = useGetDataByIdProjectQuery(endpoint);
-  console.log(error);
+  console.log(data);
 
   const fetchedData: ApiData = data;
-
-  // useEffect(() => {
-  //   fetchedData.project.items.map((item) => {
-  //     if (
-  //       isNaN(item.height || item.rotation || item.width || item.x || item.y)
-  //     ) {
-  //       setErrorData(true);
-  //     }
-  //   });
-  // }, [fetchedData]);
 
   return (
     <div
@@ -55,7 +44,7 @@ const Canvas: React.FC<Props> = ({ endpoint }) => {
         width: "100%",
         height: "100%",
         maxHeight: "100%",
-        backgroundColor: "blueviolet",
+        backgroundColor: "red",
         display: "flex",
         flexFlow: "column",
       }}
@@ -66,19 +55,18 @@ const Canvas: React.FC<Props> = ({ endpoint }) => {
         //@ts-ignore
         error.status === 500 || (404 && <p>błąd serwera</p>)
       ) : (
-        <div
+        <svg
+          width={fetchedData.project.width}
+          height={fetchedData.project.height}
           style={{
-            width: `${fetchedData.project.width}px`,
-            height: `${fetchedData.project.height}px`,
-            backgroundColor: "silver",
             margin: "auto",
-            position: "relative",
+            backgroundColor: "silver",
           }}
         >
-          {fetchedData.project.items.map((item) => (
-            <SingleCanvas item={item} />
+          {fetchedData.project.items.map((item, index) => (
+            <SingleCanvas item={item} key={index} />
           ))}
-        </div>
+        </svg>
       )}
     </div>
   );

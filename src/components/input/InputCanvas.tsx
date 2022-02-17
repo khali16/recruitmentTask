@@ -19,7 +19,9 @@ const InputCanvas: React.FC<Props> = ({ setInputPostfix }) => {
   };
   return (
     <>
-      <div style={{ width: "100vw", height: "3vh", backgroundColor: "yellow" }}>
+      <div
+        style={{ flex: "0 1", alignContent: "stretch", alignItems: "stretch" }}
+      >
         <input
           type="text"
           value={inputCanvasId}
