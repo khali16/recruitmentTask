@@ -9,7 +9,10 @@ export const dataApi = createApi({
     getDataByIdProject: builder.query({
       query: (projectId) => `project/${projectId}`,
     }),
+    getInitData: builder.query({
+      query: (init) => `${init}`,
+    }),
   }),
 });
 
-export const { useGetDataByIdProjectQuery } = dataApi;
+export const { useGetDataByIdProjectQuery, useGetInitDataQuery } = dataApi;
