@@ -1,4 +1,5 @@
 import { Item } from "../../interface/api";
+import styles from "./Canvas.module.css";
 
 interface Props {
   item: Omit<Item, "id">;
@@ -22,12 +23,10 @@ const Canvas: React.FC<Props> = ({
         height={height}
         x={x - width / 2}
         y={y - height / 2}
+        className={styles.canvas}
         style={{
           fill: color,
           transform: `rotate(${rotation}deg)`,
-          strokeWidth: "2px",
-          transformBox: "fill-box",
-          transformOrigin: "center",
         }}
       />
       <rect
@@ -35,7 +34,7 @@ const Canvas: React.FC<Props> = ({
         height={newHeight}
         x={borderX - width / 2}
         y={borderY - height / 2}
-        style={{ fill: "none", stroke: "red" }}
+        className={styles.border}
       />
       <circle cx={x} cy={y} r="5" fill="red" />
       <text

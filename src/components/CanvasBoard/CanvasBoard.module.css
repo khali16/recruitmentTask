@@ -1,0 +1,14 @@
+.infoContainer {
+  display: flex;
+  gap: 50px;
+}
+
+.text {
+  font-weight: bold;
+}
+
+.canvasContainer {
+  margin: auto;
+  background-color: silver;
+  box-sizing: border-box;
+}

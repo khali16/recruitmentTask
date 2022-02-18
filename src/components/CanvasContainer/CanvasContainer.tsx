@@ -1,5 +1,6 @@
-import CanvasBoardGate from "./CanvasBoardGate";
-import CanvasInitFlowGate from "./CanvasInitFlowGate";
+import CanvasBoardGate from "../CanvasBoardGate/CanvasBoardGate";
+import CanvasInitFlowGate from "../CanvasInitFlowGate/CanvasInitFlowGate";
+import styles from "./CanvasContainer.module.css";
 
 interface Props {
   endpoint: string;
@@ -7,13 +8,7 @@ interface Props {
 
 const CanvasContainer: React.FC<Props> = ({ endpoint }) => {
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "97vh",
-        flex: "1 1",
-      }}
-    >
+    <div className={styles.container}>
       {endpoint === "" ? (
         <CanvasInitFlowGate />
       ) : (

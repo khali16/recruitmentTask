@@ -1,9 +1,8 @@
-import { SerializedError } from "@reduxjs/toolkit";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query/fetchBaseQuery";
 import React from "react";
 import { Item } from "../../interface/api";
 import { useGetDataByIdProjectQuery } from "../../store/dataApi";
-import CanvasBoard from "./CanvasBoard";
+import CanvasBoard from "../CanvasBoard/CanvasBoard";
+import styles from "./CanvasBoardGate.module.css";
 
 interface Props {
   endpoint: string;
@@ -19,16 +18,7 @@ interface ApiError {
 const CanvasBoardGate: React.FC<Props> = ({ endpoint }) => {
   const projectQuery = useGetDataByIdProjectQuery(endpoint);
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        maxHeight: "100%",
-        display: "flex",
-        flexFlow: "column",
-        boxSizing: "border-box",
-      }}
-    >
+    <div className={styles.container}>
       {projectQuery.isLoading ? (
         <div>Loading...</div>
       ) : projectQuery.isError ? (
