@@ -1,5 +1,5 @@
-import Canvas from "./Canvas";
-import CanvasInit from "./CanvasInit";
+import CanvasBoardGate from "./CanvasBoardGate";
+import CanvasInitFlowGate from "./CanvasInitFlowGate";
 
 interface Props {
   endpoint: string;
@@ -15,9 +15,9 @@ const CanvasContainer: React.FC<Props> = ({ endpoint }) => {
       }}
     >
       {endpoint === "" ? (
-        <CanvasInit endpoint={endpoint} />
+        <CanvasInitFlowGate />
       ) : (
-        <Canvas endpoint={endpoint} />
+        <CanvasBoardGate endpoint={endpoint} />
       )}
     </div>
   );

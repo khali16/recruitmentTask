@@ -15,6 +15,7 @@ function App() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        padding: "10px",
       }}
     >
       <main
@@ -26,6 +27,7 @@ function App() {
         }}
       >
         <InputCanvas setInputPostfix={setEndpointPostfix} />
+        <hr />
         <CanvasContainer endpoint={endpointPostfix} />
       </main>
     </div>

@@ -1,81 +1,51 @@
-import { useEffect } from "react";
-import { useGetDataByIdProjectQuery } from "../../store/dataApi";
-import SingleCanvas from "./SingleCanvas";
+import { Item } from "../../interface/api";
 
 interface Props {
-  endpoint: string;
+  item: Omit<Item, "id">;
 }
 
-export interface Item {
-  id: string;
-  color: string;
-  rotation: number;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
+const Canvas: React.FC<Props> = ({
+  item: { color, height, rotation, width, x, y },
+}) => {
+  const angle = (rotation * Math.PI) / 180;
+  const sin = Math.sin(angle);
+  const cos = Math.cos(angle);
+  const newWidth = Math.abs(width * cos) + Math.abs(height * sin);
+  const newHeight = Math.abs(width * sin) + Math.abs(height * cos);
+  const borderX = x - (newWidth - width) / 2;
+  const borderY = y - (newHeight - height) / 2;
 
-interface ApiData {
-  id: string;
-  project: {
-    id: string;
-    name: string;
-    width: number;
-    height: number;
-    items: Item[];
-  };
-}
-
-const Canvas: React.FC<Props> = ({ endpoint }) => {
-  useEffect(() => {}, [endpoint]);
-
-  const { data, error, isLoading } = useGetDataByIdProjectQuery(endpoint);
-  console.log(data);
-  const fetchedData: ApiData = data;
-  const isValidationError = fetchedData?.project.items.some(
-    ({ height, width, x, y, rotation }) =>
-      isNaN(height) || isNaN(width) || isNaN(x) || isNaN(y) || isNaN(rotation)
-  );
-  return isValidationError ? (
-    <div>Error, data validation failed</div>
-  ) : (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        maxHeight: "100%",
-        display: "flex",
-        flexFlow: "column",
-      }}
-    >
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        //@ts-ignore
-
-        (error.status === 500 || 404) && <p>Ups...something went wrong...</p>
-      ) : (
-        <>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <p>ID: {fetchedData.id}</p>
-            <p>Name: {fetchedData.project.name}</p>
-          </div>
-          <svg
-            width={fetchedData.project.width}
-            height={fetchedData.project.height}
-            style={{
-              margin: "auto",
-              backgroundColor: "silver",
-            }}
-          >
-            {fetchedData.project.items.map((item, index) => (
-              <SingleCanvas item={item} key={index} />
-            ))}
-          </svg>
-        </>
-      )}
-    </div>
+  return (
+    <g>
+      <rect
+        width={width}
+        height={height}
+        x={x - width / 2}
+        y={y - height / 2}
+        style={{
+          fill: color,
+          transform: `rotate(${rotation}deg)`,
+          strokeWidth: "2px",
+          transformBox: "fill-box",
+          transformOrigin: "center",
+        }}
+      />
+      <rect
+        width={newWidth}
+        height={newHeight}
+        x={borderX - width / 2}
+        y={borderY - height / 2}
+        style={{ fill: "none", stroke: "red" }}
+      />
+      <circle cx={x} cy={y} r="5" fill="red" />
+      <text
+        x={x + 5}
+        y={y - 5}
+        style={{ fill: color.length === 7 ? "black" : "white" }}
+      >
+        {rotation}°
+      </text>
+    </g>
   );
 };
 
