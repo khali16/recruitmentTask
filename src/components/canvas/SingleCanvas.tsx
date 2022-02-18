@@ -1,3 +1,4 @@
+import { useGetInitDataQuery } from "../../store/dataApi";
 import { Item } from "./Canvas";
 
 interface Props {
@@ -14,6 +15,7 @@ const SingleCanvas: React.FC<Props> = ({
   const newHeight = Math.abs(width * sin) + Math.abs(height * cos);
   const borderX = x - (newWidth - width) / 2;
   const borderY = y - (newHeight - height) / 2;
+  const { data, isLoading } = useGetInitDataQuery("init");
 
   return (
     <>
