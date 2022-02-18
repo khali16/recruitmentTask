@@ -1,0 +1,11 @@
+.canvas {
+  fill: color;
+  stroke-width: 2px;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.border {
+  fill: none;
+  stroke: red;
+}
