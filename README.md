@@ -1,7 +1,8 @@
-Proporyzja testów:
-1)Unit: test komponentu Canvas, który sprawdza, czy wyrenderował się w odpowiedniej pozycji na podstawie współrzędnych - x, y otrzymanych poprzez propsy;
-2)Integracyjny: test komponentu CanvasBoard sprawdzający, czy wyrenderował poszczególne Canvasy;
-3)End-to-end: test aplikacji sprawdzający, czy pobiera dane z api i je wyświetla.
+Propozycja testów:
+
+1. Unit: test komponentu Canvas, który sprawdza, czy wyrenderował się w odpowiedniej pozycji na podstawie współrzędnych - x, y otrzymanych poprzez propsy;
+2. Integracyjny: test komponentu CanvasBoard sprawdzający, czy wyrenderował poszczególne Canvasy;
+3. End-to-end: test aplikacji sprawdzający, czy pobiera dane z api i je wyświetla.
 
 Uwagi do API:
 

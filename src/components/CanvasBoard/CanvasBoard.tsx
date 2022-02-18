@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ApiData } from "../../interface/api";
-import Canvas from "../Canvas/Canvas";
+import Canvas from "../canvas/Canvas";
 import styles from "./CanvasBoard.module.css";
 
 interface Props {
@@ -17,9 +17,12 @@ const CanvasBoard: React.FC<Props> = ({ data }) => {
         <p className={styles.text}>Name: {data.project.name}</p>
       </div>
       <svg
-        width={"100%"}
+        width={data.project.width}
         height={data.project.height}
-        className={styles.canvasContainer}
+        style={{
+          margin: "auto",
+          backgroundColor: "silver",
+        }}
         viewBox={`0 0 ${data.project.width} ${data.project.height}`}
       >
         <rect width="100%" height="100%" fill="#efefef" />

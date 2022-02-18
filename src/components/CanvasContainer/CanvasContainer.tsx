@@ -6,16 +6,14 @@ interface Props {
   endpoint: string;
 }
 
-const CanvasContainer: React.FC<Props> = ({ endpoint }) => {
-  return (
-    <div className={styles.container}>
-      {endpoint === "" ? (
-        <CanvasInitFlowGate />
-      ) : (
-        <CanvasBoardGate endpoint={endpoint} />
-      )}
-    </div>
-  );
-};
+const CanvasContainer: React.FC<Props> = ({ endpoint }) => (
+  <div className={styles.container}>
+    {endpoint === "" ? (
+      <CanvasInitFlowGate />
+    ) : (
+      <CanvasBoardGate endpoint={endpoint} />
+    )}
+  </div>
+);
 
 export default CanvasContainer;
