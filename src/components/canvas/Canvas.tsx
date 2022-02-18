@@ -27,38 +27,55 @@ interface ApiData {
   };
 }
 
-//TODO determine canvas position
-
 const Canvas: React.FC<Props> = ({ endpoint }) => {
   useEffect(() => {}, [endpoint]);
-  //TODO handle error
+
   const { data, error, isLoading } = useGetDataByIdProjectQuery(endpoint);
   console.log(data);
-
   const fetchedData: ApiData = data;
-
-  return (
-    <>
+  const isValidationError = fetchedData?.project.items.some(
+    ({ height, width, x, y, rotation }) =>
+      isNaN(height) || isNaN(width) || isNaN(x) || isNaN(y) || isNaN(rotation)
+  );
+  return isValidationError ? (
+    <div>Error, data validation failed</div>
+  ) : (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        maxHeight: "100%",
+        display: "flex",
+        flexFlow: "column",
+      }}
+    >
       {isLoading ? (
         <div>Loading...</div>
       ) : error ? (
-        <div>Something went wrong...</div>
+        //@ts-ignore
+
+        (error.status === 500 || 404) && <p>Ups...something went wrong...</p>
       ) : (
-        <div
-          style={{
-            width: `${fetchedData.project.width}px`,
-            height: `${fetchedData.project.height}px`,
-            backgroundColor: "silver",
-            margin: "auto",
-            position: "relative",
-          }}
-        >
-          {fetchedData.project.items.map((item) => (
-            <SingleCanvas item={item} />
-          ))}
-        </div>
+        <>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <p>ID: {fetchedData.id}</p>
+            <p>Name: {fetchedData.project.name}</p>
+          </div>
+          <svg
+            width={fetchedData.project.width}
+            height={fetchedData.project.height}
+            style={{
+              margin: "auto",
+              backgroundColor: "silver",
+            }}
+          >
+            {fetchedData.project.items.map((item, index) => (
+              <SingleCanvas item={item} key={index} />
+            ))}
+          </svg>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

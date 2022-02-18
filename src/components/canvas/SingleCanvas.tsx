@@ -1,5 +1,4 @@
-import { useLayoutEffect } from "react";
-import { useRef, useState } from "react";
+import { useGetInitDataQuery } from "../../store/dataApi";
 import { Item } from "./Canvas";
 
 interface Props {
@@ -9,55 +8,47 @@ interface Props {
 const SingleCanvas: React.FC<Props> = ({
   item: { color, height, rotation, width, x, y },
 }) => {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const [bounds, setBounds] = useState<DOMRect>();
-  useLayoutEffect(() => {
-    if (targetRef.current) {
-      setBounds(targetRef.current.getBoundingClientRect());
-    }
-  }, []);
+  const angle = (rotation * Math.PI) / 180;
+  const sin = Math.sin(angle);
+  const cos = Math.cos(angle);
+  const newWidth = Math.abs(width * cos) + Math.abs(height * sin);
+  const newHeight = Math.abs(width * sin) + Math.abs(height * cos);
+  const borderX = x - (newWidth - width) / 2;
+  const borderY = y - (newHeight - height) / 2;
+  const { data, isLoading } = useGetInitDataQuery("init");
 
   return (
     <>
-      {bounds && (
-        <div
+      <g>
+        <rect
+          width={width}
+          height={height}
+          x={x - width / 2}
+          y={y - height / 2}
           style={{
-            border: "1px solid red",
-            position: "absolute",
-            top: `${bounds.top}px`,
-            left: `${bounds.left}px`,
-            height: `${bounds.height}px`,
-            width: `${bounds.width}px`,
+            fill: color,
+            transform: `rotate(${rotation}deg)`,
+            strokeWidth: "2px",
+            transformBox: "fill-box",
+            transformOrigin: "center",
           }}
         />
-      )}
-      <div
-        style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          backgroundColor: color.length === 7 ? color : "black",
-          transform: `rotate(${rotation}deg)`,
-          position: "absolute",
-          top: `${y - width / 2}px`,
-          left: `${x - height / 2}px`,
-        }}
-        ref={targetRef}
-      >
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: "white",
-            width: "10px",
-            height: "10px",
-            borderRadius: "50%",
-          }}
+        <rect
+          width={newWidth}
+          height={newHeight}
+          x={borderX - width / 2}
+          y={borderY - height / 2}
+          style={{ fill: "none", stroke: "red" }}
+        />
+        <circle cx={x} cy={y} r="5" fill="red" />
+        <text
+          x={x + 5}
+          y={y - 5}
+          style={{ fill: color.length === 7 ? "black" : "white" }}
         >
-          <span>{rotation}</span>
-        </div>
-      </div>
+          {rotation}°
+        </text>
+      </g>
     </>
   );
 };

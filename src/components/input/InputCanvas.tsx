@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useGetInitDataQuery } from "../../store/dataApi";
 
 interface Props {
   setInputPostfix: React.Dispatch<React.SetStateAction<string>>;
@@ -7,7 +8,7 @@ interface Props {
 
 const InputCanvas: React.FC<Props> = ({ setInputPostfix }) => {
   const [inputCanvasId, setInputCanvasId] = useState<string>("");
-
+  const { refetch } = useGetInitDataQuery("init");
   const changeProjectIdHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -16,17 +17,22 @@ const InputCanvas: React.FC<Props> = ({ setInputPostfix }) => {
 
   const submitHandler = () => {
     setInputPostfix(inputCanvasId);
+    refetch();
   };
   return (
     <>
-      <input
-        type="text"
-        value={inputCanvasId}
-        onChange={changeProjectIdHandler}
-      />
-      <button type="submit" onClick={submitHandler}>
-        FETCH
-      </button>
+      <div
+        style={{ flex: "0 1", alignContent: "stretch", alignItems: "stretch" }}
+      >
+        <input
+          type="text"
+          value={inputCanvasId}
+          onChange={changeProjectIdHandler}
+        />
+        <button type="submit" onClick={submitHandler}>
+          FETCH
+        </button>
+      </div>
     </>
   );
 };
